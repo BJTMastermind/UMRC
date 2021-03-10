@@ -25,7 +25,7 @@ Coming Soon.
 
 ## Minimum Rust Version
 
-* Rust (Cargo 1.50.0)
+* Rust 1.50.0
 
 ## About This Project
 
