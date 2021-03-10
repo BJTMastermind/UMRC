@@ -1,12 +1,15 @@
-<h1 align="center">Template Repository</h1>
+<h1 align="center">Universal Minecraft Resource Converter</h1>
 
-  A Template Repository That I Can Use to Make New Repositories I Make in The Future Easier.                                                                                         
+  A Minecraft resource converter that will allow you to convert your pack to any of the following combinations                                                                                      
 
-## Plan To Add / To Do
+## Plan To Add Conversions / To Do
 
-- [ ] Item 1
-- [ ] Item 2
-- [ ] Item 3
+- [ ] Java Resource Pack -> Java Texture Pack
+- [ ] Java Resource Pack -> Bedrock Texture Pack
+- [ ] Java Texture Pack -> Java Resource Pack
+- [ ] Java Texture Pack -> Bedrock Texture Pack
+- [ ] Bedrock Texture Pack -> Java Resource Pack
+- [ ] Bedrock Texture Pack -> Java Texture Pack
 
 ## How To Use (UI)
 
@@ -16,13 +19,13 @@ Coming Soon.
 
 Coming Soon.
 
-## Minimum \<Insert Language Here> Version
+## Minimum Rust Version
 
-* Version of Language 
+* Rust (Cargo 1.50.0)
 
 ## About This Project
 
-This is a template repository that I can use to make new repositories I make in the future easier.
+The Universal Minecraft Resource Converter is a tool that allows you to convert a Java Resource Pack, Java Texture Pack, or a Bedrock Texture Pack to one another easily.
 
 # Screen Shots
 
