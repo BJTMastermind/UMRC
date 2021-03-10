@@ -5,11 +5,15 @@
 ## Plan To Add Conversions / To Do
 
 - [ ] Java Resource Pack -> Java Texture Pack
-- [ ] Java Resource Pack -> Bedrock Texture Pack
+- [ ] Java Resource Pack -> Bedrock Resource Pack
 - [ ] Java Texture Pack -> Java Resource Pack
-- [ ] Java Texture Pack -> Bedrock Texture Pack
-- [ ] Bedrock Texture Pack -> Java Resource Pack
-- [ ] Bedrock Texture Pack -> Java Texture Pack
+- [ ] Java Texture Pack -> Bedrock Resource Pack
+- [ ] Bedrock Resource Pack -> Java Resource Pack
+- [ ] Bedrock Resource Pack -> Java Texture Pack
+
+## How To Install
+
+Coming Soon.
 
 ## How To Use (UI)
 
@@ -25,7 +29,7 @@ Coming Soon.
 
 ## About This Project
 
-The Universal Minecraft Resource Converter is a tool that allows you to convert a Java Resource Pack, Java Texture Pack, or a Bedrock Texture Pack to one another easily.
+The Universal Minecraft Resource Converter is a tool that allows you to convert a Java Resource Pack, Java Texture Pack, or a Bedrock Resource Pack to one another easily.
 
 # Screen Shots
 
