@@ -12,13 +12,14 @@
 - [ ] Bedrock Resource Pack -> Java Texture Pack
 
 ## How To Install
-
+<!--
 * Download the project as Zip and Extract it.
 * Open CMD or Terminal and type the following command in the directory of the project
 ```cmd
 cargo run --release
 ```
-
+-->
+Coming Soon.
 ## How To Use (UI)
 
 Coming Soon.
