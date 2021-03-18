@@ -13,7 +13,11 @@
 
 ## How To Install
 
-Coming Soon.
+* Download the project as Zip and Extract it.
+* Open CMD or Terminal and type the following command in the directory of the project
+```cmd
+cargo run --release
+```
 
 ## How To Use (UI)
 
@@ -30,6 +34,8 @@ Coming Soon.
 ## About This Project
 
 The Universal Minecraft Resource Converter is a tool that allows you to convert a Java Resource Pack, Java Texture Pack, or a Bedrock Resource Pack to one another easily.
+
+Currently can not be used as other parts of the program are still being worked on to make the conversions possible.
 
 # Screen Shots
 
