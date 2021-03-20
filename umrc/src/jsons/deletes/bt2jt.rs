@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn bt2jt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "delete": [
         "credits",
@@ -69,5 +71,6 @@ let get_json = json::parse(r#"
         "assets"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

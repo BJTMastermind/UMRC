@@ -1,8 +1,11 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn jr2bt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "delete": []
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

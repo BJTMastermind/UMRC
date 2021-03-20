@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn jt2bt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "rename": [
         {
@@ -37,5 +39,6 @@ let get_json = json::parse(r#"
         }
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

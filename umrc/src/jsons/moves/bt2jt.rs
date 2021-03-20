@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn bt2jt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "move": [
         {
@@ -101,5 +103,6 @@ let get_json = json::parse(r#"
         }
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

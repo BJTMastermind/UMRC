@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn bt2jr() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "delete": [
         "animation_controllers",
@@ -69,5 +71,6 @@ let get_json = json::parse(r#"
         "credits"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

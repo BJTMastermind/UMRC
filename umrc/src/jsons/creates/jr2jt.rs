@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn jr2jt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "create": [
         "pack.mcmeta",
@@ -9,5 +11,6 @@ let get_json = json::parse(r#"
         "title"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

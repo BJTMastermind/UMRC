@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn jt2jr() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "delete": [
         "terrain.png",
@@ -9,5 +11,6 @@ let get_json = json::parse(r#"
         "terrain"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

@@ -1,5 +1,7 @@
-use std::{path::Path, fs, fs::File};
+use std::{path::Path, fs, fs::File, io::Write};
 use image::{GenericImage, RgbaImage, imageops};
+use json::{object};
+use uuid::Uuid;
 
 pub fn copy(source: &str, copy: &str) {
     if Path::new(source).is_file() {
@@ -61,17 +63,23 @@ pub fn stitch(path: &str) {
         let mut missing = RgbaImage::new(16,16);
         for x in 0..16 {
             for y in 0..16 {
-                match x {
-                    0..=7 => match y {
-                        0..=7 => missing.put_pixel(x, y, image::Rgba([0, 0, 0, 255])),
-                        8..=16 => missing.put_pixel(x, y, image::Rgba([248, 0, 248, 255])),
-                        _ => println!("Something went wrong!")
+                match (x, y) {
+                    // Top Left
+                    (0..=7, 0..=7) => {
+                        missing.put_pixel(x, y, image::Rgba([0, 0, 0, 255]));
                     },
-                    8..=16 => match y {
-                        0..=7 => missing.put_pixel(x, y, image::Rgba([248, 0, 248, 255])),
-                        8..=16 => missing.put_pixel(x, y, image::Rgba([0, 0, 0, 255])),
-                        _ => println!("Something went wrong!")
+                    // Top Right
+                    (8..=16, 0..=7) => {
+                        missing.put_pixel(x, y, image::Rgba([248, 0, 248, 255]));
                     },
+                    // Bottom Left
+                    (0..=7, 8..=16) => {
+                        missing.put_pixel(x, y, image::Rgba([248, 0, 248, 255]));
+                    },
+                    // Bottom Right
+                    (8..=16, 8..=16) => {
+                        missing.put_pixel(x, y, image::Rgba([0, 0, 0, 255]));
+                    },             
                     _ => println!("Something went wrong!")
                 }
             }
@@ -80,8 +88,81 @@ pub fn stitch(path: &str) {
     }
 }
 
-pub fn convert_pack(from_type: u8, to_type: u8, file: &str, file_copied: &str) {
+pub fn convert_pack(from_type: u8, to_type: u8, file_copied: &str) {
+    let mut description = "";
+    let parsed: json::JsonValue;
+    let data: String;
+    if to_type == 1 {
+        if from_type == 2 {
+            data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.txt")).unwrap();
+            description = &data.as_str();
+            std::fs::remove_file(format!("{}{}", &file_copied, "/pack.txt")).expect("Failed to remove temp image \"pack.txt\".");
+        } else if from_type == 3 {
+            data = fs::read_to_string(format!("{}{}", &file_copied, "/manifest.json")).unwrap();
+            parsed = json::parse(&data.as_str()).unwrap();
+            description = parsed["header"]["description"].as_str().unwrap();
+            std::fs::remove_file(format!("{}{}", &file_copied, "/manifest.json")).expect("Failed to remove temp image \"manifest.json\".");
+        }
 
+        let pack = json::stringify_pretty(object!{
+            "pack": {
+                "description": description.trim(),
+                "pack_format": 6
+            }
+        }, 4);
+        let mut file = File::create(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
+        writeln!(&mut file, "{}", &pack).unwrap();
+
+    } else if to_type == 2 {
+        if from_type == 1 {
+            data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
+            parsed = json::parse(&data.as_str()).unwrap();
+            description = parsed["pack"]["description"].as_str().unwrap();
+            std::fs::remove_file(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
+        } else if from_type == 3 {
+            data = fs::read_to_string(format!("{}{}", &file_copied, "/manifest.json")).unwrap();
+            parsed = json::parse(&data.as_str()).unwrap();
+            description = parsed["header"]["description"].as_str().unwrap();
+            std::fs::remove_file(format!("{}{}", &file_copied, "/manifest.json")).expect("Failed to remove temp image \"manifest.json\".");
+        }
+
+        let mut file = File::create(format!("{}{}", &file_copied, "/pack.txt")).unwrap();
+        writeln!(&mut file, "{}", &description.trim()).unwrap();
+
+    } else if to_type == 3 {
+        if from_type == 1 {
+            data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
+            parsed = json::parse(data.as_str()).unwrap();
+            description = parsed["pack"]["description"].as_str().unwrap();
+            std::fs::remove_file(format!("{}{}", &file_copied, "/pack.mcmeta")).expect("Failed to remove temp image \"pack.mcmeta\".");
+        } else if from_type == 2 {
+            data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.txt")).unwrap();
+            description = data.as_str();
+            std::fs::remove_file(format!("{}{}", &file_copied, "/pack.txt")).expect("Failed to remove temp image \"pack.txt\".");
+        }
+
+        let replaced = file_copied.replace(".zip", "").replace(".mcpack", "");
+        let split: Vec<&str> = replaced.split("/").collect();
+        let name = split[split.len() - 1];
+        let manifest = json::stringify_pretty(object!{
+            "pack_version": 1,
+            "header": {
+                "description": description.trim().clone(),
+                "name": name,
+                "uuid": Uuid::new_v4().to_string().as_str(),
+                "version": [1, 0, 0],
+                "min_engine_version": [1, 10, 1],
+            },
+            "modules": {
+                "description": description.trim(),
+                "type": "resource",
+                "uuid": Uuid::new_v4().to_string().as_str(),
+                "version": [1, 0, 0],
+            }
+        }, 4);
+        let mut file = File::create(format!("{}{}", &file_copied, "/manifest.json")).unwrap();
+        writeln!(&mut file, "{}", &manifest).unwrap();
+    }
 }
 
 pub fn crop(from_type: u8, file_copied: &str) {
@@ -109,7 +190,7 @@ pub fn crop(from_type: u8, file_copied: &str) {
         let mut img = image::open(format!("{}{}", path, "blocks/glass_pane_top.png")).unwrap().to_rgba8();
         let cropped = img.sub_image(7, 0, 9, 16).to_image();
         let mut pane = RgbaImage::new(16, 16);
-        // paste pane
+        pane.copy_from(&cropped, 7, 0).expect("Could not copy image");
         pane.save(format!("{}{}", path, "blocks/glass_pane_top.png")).unwrap();
 
         let mut img1 = image::open(format!("{}{}", path, "environment/moon_phases.png")).unwrap().to_rgba8();
@@ -126,7 +207,38 @@ pub fn crop(from_type: u8, file_copied: &str) {
     tga_to_png(file_copied);
 }
 
-fn convert_bed(from_type: u8, file_copied: &str) {   
+fn convert_bed(from_type: u8, file_copied: &str) {
+    // enum Rotation {
+    //     Ninety,
+    //     OneEighty,
+    //     TwoSeventy,
+    // }    
+    // if from_type == 1 {
+    //     let path = format!("{}{}", file_copied, "/assets/minecraft/textures/");
+        
+    //     let mut img = image::open(format!("{}{}", path, "entity/bed/red.png")).unwrap();
+    //     let bedl = img.sub_image(50, 3, 3, 3).to_image();
+    //     let flipped = imageops::rotate180(&bedl);
+
+    //     let data = vec![
+    //         (6, 28, 16, 16, "entity/bed/bed_feet_top.png", Rotation::Ninety),
+    //         (6, 6, 16, 16, "entity/bed/bed_head_top.png", Rotation::Ninety),
+    //         (22, 28, 6, 16, "entity/bed/bed_feet_side.png", Rotation::Ninety),
+    //         (22, 6, 6, 16, "entity/bed/bed_head_side.png", Rotation::Ninety),
+    //         (22, 22, 16, 6, "entity/bed/bed_feet_end.png", Rotation::OneEighty),
+    //         (6, 0, 16, 6, "entity/bed/bed_head_end.png", Rotation::OneEighty),
+    //     ];
+    //     data.iter().for_each(|(a, b, c, d, p, rotation)| {
+    //         let mut img = image::open(format!("{}{}", path, p)).unwrap();
+    //         let img_item = img.sub_image(*a, *b, *c, *d).to_image();
+    //         let flipped = match rotation {
+    //             Rotation::OneEighty => imageops::rotate180(&img_item),
+    //             Rotation::Ninety => imageops::rotate90(&img_item),
+    //             Rotation::TwoSeventy => imageops::rotate270(&img_item),
+    //         };
+    //         flipped.save(format!("{}{}", path, p)).unwrap();
+    //     });
+    // }   
     if from_type == 1 {
         // Move all this to a for loop
         let path = format!("{}{}", file_copied, "/assets/minecraft/textures/");

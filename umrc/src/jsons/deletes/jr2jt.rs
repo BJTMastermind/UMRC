@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn jr2jt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "delete": [
         "textures/models/armor/leather_layer_1_overlay.png",
@@ -102,5 +104,6 @@ let get_json = json::parse(r#"
         "assets"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

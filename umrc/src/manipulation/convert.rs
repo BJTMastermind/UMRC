@@ -1,4 +1,3 @@
-use std::{path, fs, fs::File};
 use crate::manipulation::*;
 
 pub fn resource_to_texture(file: &str, file_copied: &str, from_type: u8, to_type: u8, from_pack: &str, to_pack: &str, path: &str) {
@@ -6,7 +5,7 @@ pub fn resource_to_texture(file: &str, file_copied: &str, from_type: u8, to_type
     tga_to_png(&file_copied);
     /*crop(from_type, file_copied);
     stitch(path);
-    convert_pack(from_type, to_type, &file, &file_copied);
+    convert_pack(from_type, to_type, &file_copied);
     json
     json
     json

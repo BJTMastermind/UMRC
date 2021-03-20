@@ -1,11 +1,14 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn bt2jr() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "create": [
         "assets",
         "assets/minecraft"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

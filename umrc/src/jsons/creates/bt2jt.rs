@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn bt2jt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "create": [
         "terrain",
@@ -8,5 +10,6 @@ let get_json = json::parse(r#"
         "title"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}

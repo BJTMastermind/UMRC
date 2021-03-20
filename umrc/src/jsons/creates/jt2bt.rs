@@ -1,6 +1,8 @@
 use json;
+use json::JsonValue;
 
-let get_json = json::parse(r#"
+pub fn jt2bt() -> JsonValue {
+    let get_json = json::parse(r#"
 {
     "create": [
         "textures",
@@ -19,5 +21,6 @@ let get_json = json::parse(r#"
         "textures/particle"
     ]
 }
-"#).unwrap();
-        
+    "#).unwrap();
+    get_json
+}
