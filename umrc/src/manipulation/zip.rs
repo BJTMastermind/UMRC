@@ -14,10 +14,11 @@ pub fn zip(file_copied: &str, to_type: u8) {
 }
 
 pub fn unzip(file_copied: &str) {
-    // let file = File::create(&file_copied).unwrap();
-    // let mut archive = zip::ZipArchive::new(file).unwrap();
-    // archive.extract(&PathBuf::from(&file_copied.replace(".zip", ""))).unwrap();
-    let archive = PathBuf::from(&file_copied);
-    let file = PathBuf::from(&file_copied.replace(".zip", ""));
-    zip_extract(&archive, &file).unwrap();
+    if file_copied.ends_with(".zip") || file_copied.ends_with(".mcpack") {
+        let archive = PathBuf::from(&file_copied);
+        let file = PathBuf::from(&file_copied.replace(".zip", "").replace(".mcpack", ""));
+        zip_extract(&archive, &file).unwrap();
+    } else {
+        println!("File given is a directory not a .zip or .mcpack!");
+    }
 }
