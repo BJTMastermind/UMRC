@@ -4,12 +4,14 @@
 
 ## Plan To Add Conversions / To Do
 
-- [ ] Java Resource Pack -> Java Texture Pack
-- [ ] Java Resource Pack -> Bedrock Resource Pack
-- [ ] Java Texture Pack -> Java Resource Pack
-- [ ] Java Texture Pack -> Bedrock Resource Pack
-- [ ] Bedrock Resource Pack -> Java Resource Pack
-- [ ] Bedrock Resource Pack -> Java Texture Pack
+- [ ] Java Resource Pack (1.16.5) -> Java Texture Pack (1.4.7)
+- [ ] Java Resource Pack (1.16.5) -> Bedrock Resource Pack (1.16.210)
+- [ ] Java Texture Pack (1.4.7) -> Java Resource Pack (1.16.5)
+- [ ] Java Texture Pack (1.4.7) -> Bedrock Resource Pack (1.16.210)
+- [ ] Bedrock Resource Pack (1.16.210) -> Java Resource Pack (1.16.5)
+- [ ] Bedrock Resource Pack (1.16.210) -> Java Texture Pack (1.4.7)
+
+Older versions will be an option in the future.
 
 ## How To Install
 <!--
