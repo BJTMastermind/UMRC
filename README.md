@@ -30,10 +30,6 @@ Coming Soon.
 
 Coming Soon.
 
-## Minimum Rust Version
-
-* Rust 1.50.0
-
 ## About This Project
 
 The Universal Minecraft Resource Converter is a tool that allows you to convert a Java Resource Pack, Java Texture Pack, or a Bedrock Resource Pack to one another easily.
