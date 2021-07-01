@@ -5,10 +5,11 @@ pub fn jt2jr() -> JsonValue {
     let get_json = json::parse(r#"
 {
     "delete": [
-        "terrain.png",
-        "pack.txt",
+        "font",
+        "achievement",
         "item",
-        "terrain"
+        "terrain",
+        "assets/minecraft/textures/gui/particles.png"
     ]
 }
     "#).unwrap();

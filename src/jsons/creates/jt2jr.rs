@@ -5,20 +5,25 @@ pub fn jt2jr() -> JsonValue {
     let get_json = json::parse(r#"
 {
     "create": [
-        "entity/cow",
-        "entity/creeper",
-        "entity/ghast",
-        "entity/pig",
-        "entity/projectiles",
-        "entity/sheep",
-        "entity/skeleton",
-        "entity/slime",
-        "entity/spider",
-        "entity/zombie",
+        "mob/cow",
+        "mob/creeper",
+        "mob/ghast",
+        "mob/pig",
+        "mob/projectiles",
+        "mob/sheep",
+        "mob/skeleton",
+        "mob/slime",
+        "mob/spider",
+        "mob/zombie",
         "gui/container",
-        "textures/models",
-        "textures/colormap",
-        "textures/particle"
+        "assets",
+        "assets/minecraft",
+        "assets/minecraft/textures",
+        "assets/minecraft/textures/blocks",
+        "assets/minecraft/textures/items",
+        "assets/minecraft/textures/models",
+        "assets/minecraft/textures/colormap",
+        "assets/minecraft/textures/particle"
     ]
 }
     "#).unwrap();

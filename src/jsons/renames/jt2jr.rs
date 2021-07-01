@@ -22,6 +22,14 @@ pub fn jt2jr() -> JsonValue {
             "to": "armor/leather_layer_2.png"
         },
         {
+            "from": "armor/cloth_1_b.png",
+            "to": "armor/leather_layer_1_overlay.png"
+        },
+        {
+            "from": "armor/cloth_2_b.png",
+            "to": "armor/leather_layer_2_overlay.png"
+        },
+        {
             "from": "armor/diamond_1.png",
             "to": "armor/diamond_layer_1.png"
         },

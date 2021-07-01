@@ -3,9 +3,7 @@ use crate::jsons::*;
 
 use json::JsonValue;
 
-pub fn json(source: &str, file: &str, file_copied: &str, from_type: u8, to_type: u8) {
-    let root_folder = format!("{}{}", file_copied, "/");
-
+pub fn json(source: &str, file: &str, root_folder: &String, from_type: &u8, to_type: &u8) {
     match source {
         "renames" => {
             let rename: JsonValue = get_json_file(source, file).unwrap()["rename"].clone();
@@ -18,9 +16,13 @@ pub fn json(source: &str, file: &str, file_copied: &str, from_type: u8, to_type:
         "moves" => {
             let moves: JsonValue = get_json_file(source, file).unwrap()["move"].clone();
             for i in 0..moves.len() {
-                let from = format!("{}{}{}", root_folder, "/", moves[i]["from"].to_string());
-                let to = format!("{}{}{}", root_folder, "/", moves[i]["to"].to_string());
-                move_dir(from.as_str(), to.as_str()).unwrap();
+                let from = format!("{}{}", root_folder, moves[i]["from"].to_string());
+                let to = format!("{}{}", root_folder, moves[i]["to"].to_string());
+                if from.ends_with(".png") || from.ends_with(".tga") {
+                    move_file(&from, &to).unwrap();
+                } else {
+                    move_dir(&from, &to).unwrap();
+                }
             }
         },
         "deletes" => {
@@ -34,10 +36,7 @@ pub fn json(source: &str, file: &str, file_copied: &str, from_type: u8, to_type:
             let create: JsonValue = get_json_file(source, file).unwrap()["create"].clone();
             for i in 0..create.len() {
                 let make = create[i].to_string();
-                std::fs::create_dir(format!("{}{}{}", root_folder, "/", make)).unwrap();
-            }
-            if from_type == 2 && to_type == 1 {
-                std::fs::rename(format!("{}{}", root_folder, ".zip"), root_folder).unwrap();
+                std::fs::create_dir(format!("{}{}{}", root_folder, "/", make)).unwrap_or({});
             }
         },
         _ => println!("Error: Could not find json file selected.")

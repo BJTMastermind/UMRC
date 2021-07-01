@@ -2,15 +2,28 @@ use clap::{Arg, App};
 use ConverterTypes::*;
 
 #[derive(Debug, PartialEq)]
+#[derive(Copy, Clone)]
 pub enum ConverterTypes {
     Texture,
     Resource,
     Bedrock,
+    None,
+}
+impl std::fmt::Display for ConverterTypes {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let string_display = match self {
+            Self::Texture => "Java Texture Pack",
+            Self::Resource => "Java Resource Pack",
+            Self::Bedrock => "Bedrock Resource Pack",
+            Self::None => "None",
+        };
+        write!(f, "{}", string_display)
+    }
 }
 
 pub fn args() -> (Option<ConverterTypes>, Option<ConverterTypes>, Option<String>) {
     let matches = App::new("Universal Minecraft Resource Converter")
-        .version("0.4.0")
+        .version("0.1.0")
         .author("BJTMastermind")
         .about("Converts a Minecraft resource pack from one version to another.")
         .arg(Arg::with_name("input")
@@ -35,13 +48,13 @@ pub fn args() -> (Option<ConverterTypes>, Option<ConverterTypes>, Option<String>
         "texture" => Some(Texture),
         "resource" => Some(Resource),
         "bedrock" => Some(Bedrock),
-        _ => None,
+        _ => Some(None),
     };
     let out_type = match matches.value_of("output").unwrap_or(" ") {
         "texture" => Some(Texture),
         "resource" => Some(Resource),
         "bedrock" => Some(Bedrock),
-        _ => None,
+        _ => Some(None),
     };
     let pack_path = matches.value_of("file");
     

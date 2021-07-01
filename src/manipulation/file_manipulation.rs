@@ -1,6 +1,7 @@
 use std::{path::Path, fs, fs::File, io::Write};
 use image::{GenericImage, RgbaImage, imageops};
-use json::{object};
+use json::{object, JsonValue};
+use crate::jsons::*;
 use uuid::Uuid;
 
 pub fn copy(source: &str, copy: &str) {
@@ -25,24 +26,30 @@ fn copy_dir(from: impl AsRef<Path>, to: impl AsRef<Path>) -> std::io::Result<()>
     Ok(())
 }
 
-pub fn unstitch(path: &str) {
-    let names = vec![format!("{}{}", path, "grass_top.png"),format!("{}{}", path, "stone.png"),format!("{}{}", path, "dirt.png"),format!("{}{}", path, "grass_side.png"),format!("{}{}", path, "planks_oak.png"),format!("{}{}", path, "stone_slab_side.png"),format!("{}{}", path, "stone_slab_top.png"),format!("{}{}", path, "brick.png"),format!("{}{}", path, "tnt_side.png"),format!("{}{}", path, "tnt_top.png"),format!("{}{}", path, "tnt_bottom.png"),format!("{}{}", path, "web.png"),format!("{}{}", path, "flower_rose.png"),format!("{}{}", path, "flower_dandelion.png"),"none".to_string(),format!("{}{}", path, "sapling_oak.png"),format!("{}{}", path, "cobblestone.png"),format!("{}{}", path, "bedrock.png"),format!("{}{}", path, "sand.png"),format!("{}{}", path, "gravel.png"),format!("{}{}", path, "log_oak.png"),format!("{}{}", path, "log_oak_top.png"),format!("{}{}", path, "iron_block.png"),format!("{}{}", path, "gold_block.png"),format!("{}{}", path, "diamond_block.png"),format!("{}{}", path, "emerald_block.png"),"none".to_string(),"none".to_string(),format!("{}{}", path, "mushroom_red.png"),format!("{}{}", path, "mushroom_brown.png"),format!("{}{}", path, "sapling_jungle.png"),"none".to_string(),format!("{}{}", path, "gold_ore.png"),format!("{}{}", path, "iron_ore.png"),format!("{}{}", path, "coal_ore.png"),format!("{}{}", path, "bookshelf.png"),format!("{}{}", path, "cobblestone_mossy.png"),format!("{}{}", path, "obsidian.png"),format!("{}{}", path, "grass_side_overlay.png"),format!("{}{}", path, "tallgrass.png"),format!("{}{}", path, "grass_top.png"),format!("{}{}", path, "beacon.png"),"none".to_string(),format!("{}{}", path, "crafting_table_top.png"),format!("{}{}", path, "furnace_front_off.png"),format!("{}{}", path, "furnace_side.png"),format!("{}{}", path, "dispenser_front_horizontal.png"),"none".to_string(),format!("{}{}", path, "sponge.png"),format!("{}{}", path, "glass.png"),format!("{}{}", path, "diamond_ore.png"),format!("{}{}", path, "redstone_ore.png"),format!("{}{}", path, "leaves_oak.png"),format!("{}{}", path, "leaves_oak_opaque.png"),format!("{}{}", path, "stonebrick.png"),format!("{}{}", path, "deadbush.png"),format!("{}{}", path, "fern.png"),"none".to_string(),"none".to_string(),format!("{}{}", path, "crafting_table_side.png"),format!("{}{}", path, "crafting_table_front.png"),format!("{}{}", path, "furnace_front_on.png"),format!("{}{}", path, "furnace_top.png"),format!("{}{}", path, "sapling_spruce.png"),format!("{}{}", path, "wool_colored_white.png"),format!("{}{}", path, "mob_spawner.png"),format!("{}{}", path, "snow.png"),format!("{}{}", path, "ice.png"),format!("{}{}", path, "grass_side_snowed.png"),format!("{}{}", path, "cactus_top.png"),format!("{}{}", path, "cactus_side.png"),format!("{}{}", path, "cactus_bottom.png"),format!("{}{}", path, "clay.png"),format!("{}{}", path, "reeds.png"),format!("{}{}", path, "jukebox_side.png"),format!("{}{}", path, "jukebox_top.png"),format!("{}{}", path, "waterlily.png"),format!("{}{}", path, "mycelium_side.png"),format!("{}{}", path, "mycelium_top.png"),format!("{}{}", path, "sapling_birch.png"),format!("{}{}", path, "torch_on.png"),format!("{}{}", path, "door_wood_upper.png"),format!("{}{}", path, "door_iron_upper.png"),format!("{}{}", path, "ladder.png"),format!("{}{}", path, "trapdoor.png"),format!("{}{}", path, "iron_bars.png"),format!("{}{}", path, "farmland_wet.png"),format!("{}{}", path, "farmland_dry.png"),format!("{}{}", path, "wheat_stage_0.png"),format!("{}{}", path, "wheat_stage_1.png"),format!("{}{}", path, "wheat_stage_2.png"),format!("{}{}", path, "wheat_stage_3.png"),format!("{}{}", path, "wheat_stage_4.png"),format!("{}{}", path, "wheat_stage_5.png"),format!("{}{}", path, "wheat_stage_6.png"),format!("{}{}", path, "wheat_stage_7.png"),format!("{}{}", path, "lever.png"),format!("{}{}", path, "door_wood_lower.png"),format!("{}{}", path, "door_iron_lower.png"),format!("{}{}", path, "redstone_torch_on.png"),format!("{}{}", path, "stonebrick_mossy.png"),format!("{}{}", path, "stonebrick_cracked.png"),format!("{}{}", path, "pumpkin_top.png"),format!("{}{}", path, "netherrack.png"),format!("{}{}", path, "soul_sand.png"),format!("{}{}", path, "glowstone.png"),format!("{}{}", path, "piston_top_sticky.png"),format!("{}{}", path, "piston_top_normal.png"),format!("{}{}", path, "piston_side.png"),format!("{}{}", path, "piston_bottom.png"),format!("{}{}", path, "piston_inner.png"),format!("{}{}", path, "pumpkin_stem_disconnected.png"),format!("{}{}", path, "rail_normal_turned.png"),format!("{}{}", path, "wool_colored_black.png"),format!("{}{}", path, "wool_colored_gray.png"),format!("{}{}", path, "redstone_torch_off.png"),format!("{}{}", path, "log_spruce.png"),format!("{}{}", path, "log_birch.png"),format!("{}{}", path, "pumpkin_side.png"),format!("{}{}", path, "pumpkin_face_off.png"),format!("{}{}", path, "pumpkin_face_on.png"),format!("{}{}", path, "cake_top.png"),format!("{}{}", path, "cake_side.png"),format!("{}{}", path, "cake_inner.png"),format!("{}{}", path, "cake_bottom.png"),format!("{}{}", path, "mushroom_block_skin_red.png"),format!("{}{}", path, "mushroom_block_skin_brown.png"),format!("{}{}", path, "pumpkin_stem_connected.png"),format!("{}{}", path, "rail_normal.png"),format!("{}{}", path, "wool_colored_red.png"),format!("{}{}", path, "wool_colored_pink.png"),format!("{}{}", path, "repeater_off.png"),format!("{}{}", path, "leaves_spruce.png"),format!("{}{}", path, "leaves_spruce_opaque.png"),format!("{}{}", path, "bed_feet_top.png"),format!("{}{}", path, "bed_head_top.png"),format!("{}{}", path, "melon_side.png"),format!("{}{}", path, "melon_top.png"),format!("{}{}", path, "cauldron_top.png"),format!("{}{}", path, "cauldron_inner.png"),"none".to_string(),format!("{}{}", path, "mushroom_block_skin_stem.png"),format!("{}{}", path, "mushroom_block_inside.png"),format!("{}{}", path, "vine.png"),format!("{}{}", path, "lapis_block.png"),format!("{}{}", path, "wool_colored_green.png"),format!("{}{}", path, "wool_colored_lime.png"),format!("{}{}", path, "repeater_on.png"),format!("{}{}", path, "glass_pane_top.png"),format!("{}{}", path, "bed_feet_end.png"),format!("{}{}", path, "bed_feet_side.png"),format!("{}{}", path, "bed_head_side.png"),format!("{}{}", path, "bed_head_end.png"),format!("{}{}", path, "log_jungle.png"),format!("{}{}", path, "cauldron_side.png"),format!("{}{}", path, "cauldron_bottom.png"),format!("{}{}", path, "brewing_stand_base.png"),format!("{}{}", path, "brewing_stand.png"),format!("{}{}", path, "endframe_top.png"),format!("{}{}", path, "endframe_side.png"),format!("{}{}", path, "lapis_ore.png"),format!("{}{}", path, "wool_colored_brown.png"),format!("{}{}", path, "wool_colored_yellow.png"),format!("{}{}", path, "rail_golden.png"),format!("{}{}", path, "redstone_dust_dot.png"),format!("{}{}", path, "redstone_dust_line0.png"),format!("{}{}", path, "enchanting_table_top.png"),format!("{}{}", path, "dragon_egg.png"),format!("{}{}", path, "cocoa_stage_2.png"),format!("{}{}", path, "cocoa_stage_1.png"),format!("{}{}", path, "cocoa_stage_0.png"),format!("{}{}", path, "emerald_ore.png"),format!("{}{}", path, "trip_wire_source.png"),format!("{}{}", path, "trip_wire.png"),format!("{}{}", path, "endframe_eye.png"),format!("{}{}", path, "end_stone.png"),format!("{}{}", path, "sandstone_top.png"),format!("{}{}", path, "wool_colored_blue.png"),format!("{}{}", path, "wool_colored_light_blue.png"),format!("{}{}", path, "rail_golden_powered.png"),"none".to_string(),"none".to_string(),format!("{}{}", path, "enchanting_table_side.png"),format!("{}{}", path, "enchanting_table_bottom.png"),format!("{}{}", path, "command_block_back.png"),format!("{}{}", path, "itemframe_background.png"),format!("{}{}", path, "flower_pot.png"),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),format!("{}{}", path, "sandstone_normal.png"),format!("{}{}", path, "wool_colored_purple.png"),format!("{}{}", path, "wool_colored_magenta.png"),format!("{}{}", path, "rail_detector.png"),format!("{}{}", path, "leaves_jungle.png"),format!("{}{}", path, "leaves_jungle_opaque.png"),format!("{}{}", path, "planks_spruce.png"),format!("{}{}", path, "planks_jungle.png"),format!("{}{}", path, "carrots_stage_0.png"),format!("{}{}", path, "carrots_stage_1.png"),format!("{}{}", path, "carrots_stage_2.png"),format!("{}{}", path, "carrots_stage_3.png"),format!("{}{}", path, "potatoes_stage_3.png"),"none".to_string(),"none".to_string(),"none".to_string(),format!("{}{}", path, "sandstone_bottom.png"),format!("{}{}", path, "wool_colored_cyan.png"),format!("{}{}", path, "wool_colored_orange.png"),format!("{}{}", path, "redstone_lamp_off.png"),format!("{}{}", path, "redstone_lamp_on.png"),format!("{}{}", path, "stonebrick_carved.png"),format!("{}{}", path, "planks_birch.png"),format!("{}{}", path, "anvil_base.png"),format!("{}{}", path, "anvil_top_damaged_1.png"),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),format!("{}{}", path, "nether_brick.png"),format!("{}{}", path, "wool_colored_silver.png"),format!("{}{}", path, "nether_wart_stage_0.png"),format!("{}{}", path, "nether_wart_stage_1.png"),format!("{}{}", path, "nether_wart_stage_2.png"),format!("{}{}", path, "sandstone_carved.png"),format!("{}{}", path, "sandstone_smooth.png"),format!("{}{}", path, "anvil_top_damaged_0.png"),format!("{}{}", path, "anvil_top_damaged_2.png"),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),format!("{}{}", path, "destroy_stage_0.png"),format!("{}{}", path, "destroy_stage_1.png"),format!("{}{}", path, "destroy_stage_2.png"),format!("{}{}", path, "destroy_stage_3.png"),format!("{}{}", path, "destroy_stage_4.png"),format!("{}{}", path, "destroy_stage_5.png"),format!("{}{}", path, "destroy_stage_6.png"),format!("{}{}", path, "destroy_stage_7.png"),format!("{}{}", path, "destroy_stage_8.png"),format!("{}{}", path, "destroy_stage_9.png"),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string(),"none".to_string()];
-    let mut base = image::open(format!("{}{}", path, "terrain.png")).unwrap();
+pub fn unstitch(path: &String, image: &str) {
+    let names = textures::get_terrain()["textures"].clone();
+    // if image == "terrain.png" {
+    //     names = textures::get_terrain()["textures"];
+    // } else {
+    //     names = vec![format!("{}{}", path, "leather_helmet.png"),format!("{}{}", path, "chainmail_helmet.png"),format!("{}{}", path, "iron_helmet.png"),format!("{}{}", path, "diamond_helmet.png"),format!("{}{}", path, "gold_helmet.png"),format!("{}{}", path, "flint_and_steel.png"),format!("{}{}", path, "flint.png"),format!("{}{}", path, "coal.png"),format!("{}{}", path, "string.png"),format!("{}{}", path, "wheat_seeds.png"),format!("{}{}", path, "apple.png"),format!("{}{}", path, "golden_apple.png"),format!("{}{}", path, "egg.png"),format!("{}{}", path, "suger.png"),format!("{}{}", path, "snowball.png"),format!("{}{}", path, "empty_helmet_slot.png"),format!("{}{}", path, "gold_helmet.png")];
+    // }
+    let mut base = image::open(format!("{}{}", path, image)).unwrap();
     let mut i: usize = 0;
 
     for y in (0..256).step_by(16) {
         for x in (0..256).step_by(16) {
-            if names[i] != "none".to_string() {
+            if names[i].to_string() != "none".to_string() {
                 let texture: RgbaImage = base.sub_image(x, y, 16, 16).to_image();
-                texture.save(&names[i]).unwrap();
+                texture.save(format!("{}{}", path, &names[i].to_string())).unwrap();
             }
             i += 1;
         }
     }
+    std::fs::remove_file(format!("{}{}", path, image)).expect("Failed to remove texture atlus");
 }
 
-pub fn stitch(path: &str) {
-    let names = vec![format!("{}{}", path, "grass_top.png"),format!("{}{}", path, "stone.png"),format!("{}{}", path, "dirt.png"),format!("{}{}", path, "grass_side.png"),format!("{}{}", path, "planks_oak.png"),format!("{}{}", path, "stone_slab_side.png"),format!("{}{}", path, "stone_slab_top.png"),format!("{}{}", path, "brick.png"),format!("{}{}", path, "tnt_side.png"),format!("{}{}", path, "tnt_top.png"),format!("{}{}", path, "tnt_bottom.png"),format!("{}{}", path, "web.png"),format!("{}{}", path, "flower_rose.png"),format!("{}{}", path, "flower_dandelion.png"),"blank.png".to_string(),format!("{}{}", path, "sapling_oak.png"),format!("{}{}", path, "cobblestone.png"),format!("{}{}", path, "bedrock.png"),format!("{}{}", path, "sand.png"),format!("{}{}", path, "gravel.png"),format!("{}{}", path, "log_oak.png"),format!("{}{}", path, "log_oak_top.png"),format!("{}{}", path, "iron_block.png"),format!("{}{}", path, "gold_block.png"),format!("{}{}", path, "diamond_block.png"),format!("{}{}", path, "emerald_block.png"),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "mushroom_red.png"),format!("{}{}", path, "mushroom_brown.png"),format!("{}{}", path, "sapling_jungle.png"),"blank.png".to_string(),format!("{}{}", path, "gold_ore.png"),format!("{}{}", path, "iron_ore.png"),format!("{}{}", path, "coal_ore.png"),format!("{}{}", path, "bookshelf.png"),format!("{}{}", path, "cobblestone_mossy.png"),format!("{}{}", path, "obsidian.png"),format!("{}{}", path, "grass_side_overlay.png"),format!("{}{}", path, "tallgrass.png"),format!("{}{}", path, "grass_top.png"),format!("{}{}", path, "beacon.png"),"blank.png".to_string(),format!("{}{}", path, "crafting_table_top.png"),format!("{}{}", path, "furnace_front_off.png"),format!("{}{}", path, "furnace_side.png"),format!("{}{}", path, "dispenser_front_horizontal.png"),"blank.png".to_string(),format!("{}{}", path, "sponge.png"),format!("{}{}", path, "glass.png"),format!("{}{}", path, "diamond_ore.png"),format!("{}{}", path, "redstone_ore.png"),format!("{}{}", path, "leaves_oak.png"),format!("{}{}", path, "leaves_oak_opaque.png"),format!("{}{}", path, "stonebrick.png"),format!("{}{}", path, "deadbush.png"),format!("{}{}", path, "fern.png"),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "crafting_table_side.png"),format!("{}{}", path, "crafting_table_front.png"),format!("{}{}", path, "furnace_front_on.png"),format!("{}{}", path, "furnace_top.png"),format!("{}{}", path, "sapling_spruce.png"),format!("{}{}", path, "wool_colored_white.png"),format!("{}{}", path, "mob_spawner.png"),format!("{}{}", path, "snow.png"),format!("{}{}", path, "ice.png"),format!("{}{}", path, "grass_side_snowed.png"),format!("{}{}", path, "cactus_top.png"),format!("{}{}", path, "cactus_side.png"),format!("{}{}", path, "cactus_bottom.png"),format!("{}{}", path, "clay.png"),format!("{}{}", path, "reeds.png"),format!("{}{}", path, "jukebox_side.png"),format!("{}{}", path, "jukebox_top.png"),format!("{}{}", path, "waterlily.png"),format!("{}{}", path, "mycelium_side.png"),format!("{}{}", path, "mycelium_top.png"),format!("{}{}", path, "sapling_birch.png"),format!("{}{}", path, "torch_on.png"),format!("{}{}", path, "door_wood_upper.png"),format!("{}{}", path, "door_iron_upper.png"),format!("{}{}", path, "ladder.png"),format!("{}{}", path, "trapdoor.png"),format!("{}{}", path, "iron_bars.png"),format!("{}{}", path, "farmland_wet.png"),format!("{}{}", path, "farmland_dry.png"),format!("{}{}", path, "wheat_stage_0.png"),format!("{}{}", path, "wheat_stage_1.png"),format!("{}{}", path, "wheat_stage_2.png"),format!("{}{}", path, "wheat_stage_3.png"),format!("{}{}", path, "wheat_stage_4.png"),format!("{}{}", path, "wheat_stage_5.png"),format!("{}{}", path, "wheat_stage_6.png"),format!("{}{}", path, "wheat_stage_7.png"),format!("{}{}", path, "lever.png"),format!("{}{}", path, "door_wood_lower.png"),format!("{}{}", path, "door_iron_lower.png"),format!("{}{}", path, "redstone_torch_on.png"),format!("{}{}", path, "stonebrick_mossy.png"),format!("{}{}", path, "stonebrick_cracked.png"),format!("{}{}", path, "pumpkin_top.png"),format!("{}{}", path, "netherrack.png"),format!("{}{}", path, "soul_sand.png"),format!("{}{}", path, "glowstone.png"),format!("{}{}", path, "piston_top_sticky.png"),format!("{}{}", path, "piston_top_normal.png"),format!("{}{}", path, "piston_side.png"),format!("{}{}", path, "piston_bottom.png"),format!("{}{}", path, "piston_inner.png"),format!("{}{}", path, "pumpkin_stem_disconnected.png"),format!("{}{}", path, "rail_normal_turned.png"),format!("{}{}", path, "wool_colored_black.png"),format!("{}{}", path, "wool_colored_gray.png"),format!("{}{}", path, "redstone_torch_off.png"),format!("{}{}", path, "log_spruce.png"),format!("{}{}", path, "log_birch.png"),format!("{}{}", path, "pumpkin_side.png"),format!("{}{}", path, "pumpkin_face_off.png"),format!("{}{}", path, "pumpkin_face_on.png"),format!("{}{}", path, "cake_top.png"),format!("{}{}", path, "cake_side.png"),format!("{}{}", path, "cake_inner.png"),format!("{}{}", path, "cake_bottom.png"),format!("{}{}", path, "mushroom_block_skin_red.png"),format!("{}{}", path, "mushroom_block_skin_brown.png"),format!("{}{}", path, "pumpkin_stem_connected.png"),format!("{}{}", path, "rail_normal.png"),format!("{}{}", path, "wool_colored_red.png"),format!("{}{}", path, "wool_colored_pink.png"),format!("{}{}", path, "repeater_off.png"),format!("{}{}", path, "leaves_spruce.png"),format!("{}{}", path, "leaves_spruce_opaque.png"),format!("{}{}", path, "bed_feet_top.png"),format!("{}{}", path, "bed_head_top.png"),format!("{}{}", path, "melon_side.png"),format!("{}{}", path, "melon_top.png"),format!("{}{}", path, "cauldron_top.png"),format!("{}{}", path, "cauldron_inner.png"),"blank.png".to_string(),format!("{}{}", path, "mushroom_block_skin_stem.png"),format!("{}{}", path, "mushroom_block_inside.png"),format!("{}{}", path, "vine.png"),format!("{}{}", path, "lapis_block.png"),format!("{}{}", path, "wool_colored_green.png"),format!("{}{}", path, "wool_colored_lime.png"),format!("{}{}", path, "repeater_on.png"),format!("{}{}", path, "glass_pane_top.png"),format!("{}{}", path, "bed_feet_end.png"),format!("{}{}", path, "bed_feet_side.png"),format!("{}{}", path, "bed_head_side.png"),format!("{}{}", path, "bed_head_end.png"),format!("{}{}", path, "log_jungle.png"),format!("{}{}", path, "cauldron_side.png"),format!("{}{}", path, "cauldron_bottom.png"),format!("{}{}", path, "brewing_stand_base.png"),format!("{}{}", path, "brewing_stand.png"),format!("{}{}", path, "endframe_top.png"),format!("{}{}", path, "endframe_side.png"),format!("{}{}", path, "lapis_ore.png"),format!("{}{}", path, "wool_colored_brown.png"),format!("{}{}", path, "wool_colored_yellow.png"),format!("{}{}", path, "rail_golden.png"),format!("{}{}", path, "redstone_dust_dot.png"),format!("{}{}", path, "redstone_dust_line0.png"),format!("{}{}", path, "enchanting_table_top.png"),format!("{}{}", path, "dragon_egg.png"),format!("{}{}", path, "cocoa_stage_2.png"),format!("{}{}", path, "cocoa_stage_1.png"),format!("{}{}", path, "cocoa_stage_0.png"),format!("{}{}", path, "emerald_ore.png"),format!("{}{}", path, "trip_wire_source.png"),format!("{}{}", path, "trip_wire.png"),format!("{}{}", path, "endframe_eye.png"),format!("{}{}", path, "end_stone.png"),format!("{}{}", path, "sandstone_top.png"),format!("{}{}", path, "wool_colored_blue.png"),format!("{}{}", path, "wool_colored_light_blue.png"),format!("{}{}", path, "rail_golden_powered.png"),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "enchanting_table_side.png"),format!("{}{}", path, "enchanting_table_bottom.png"),format!("{}{}", path, "command_block_back.png"),format!("{}{}", path, "itemframe_background.png"),format!("{}{}", path, "flower_pot.png"),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "sandstone_normal.png"),format!("{}{}", path, "wool_colored_purple.png"),format!("{}{}", path, "wool_colored_magenta.png"),format!("{}{}", path, "rail_detector.png"),format!("{}{}", path, "leaves_jungle.png"),format!("{}{}", path, "leaves_jungle_opaque.png"),format!("{}{}", path, "planks_spruce.png"),format!("{}{}", path, "planks_jungle.png"),format!("{}{}", path, "carrots_stage_0.png"),format!("{}{}", path, "carrots_stage_1.png"),format!("{}{}", path, "carrots_stage_2.png"),format!("{}{}", path, "carrots_stage_3.png"),format!("{}{}", path, "potatoes_stage_3.png"),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "sandstone_bottom.png"),format!("{}{}", path, "wool_colored_cyan.png"),format!("{}{}", path, "wool_colored_orange.png"),format!("{}{}", path, "redstone_lamp_off.png"),format!("{}{}", path, "redstone_lamp_on.png"),format!("{}{}", path, "stonebrick_carved.png"),format!("{}{}", path, "planks_birch.png"),format!("{}{}", path, "anvil_base.png"),format!("{}{}", path, "anvil_top_damaged_1.png"),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "nether_brick.png"),format!("{}{}", path, "wool_colored_silver.png"),format!("{}{}", path, "nether_wart_stage_0.png"),format!("{}{}", path, "nether_wart_stage_1.png"),format!("{}{}", path, "nether_wart_stage_2.png"),format!("{}{}", path, "sandstone_carved.png"),format!("{}{}", path, "sandstone_smooth.png"),format!("{}{}", path, "anvil_top_damaged_0.png"),format!("{}{}", path, "anvil_top_damaged_2.png"),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),format!("{}{}", path, "destroy_stage_0.png"),format!("{}{}", path, "destroy_stage_1.png"),format!("{}{}", path, "destroy_stage_2.png"),format!("{}{}", path, "destroy_stage_3.png"),format!("{}{}", path, "destroy_stage_4.png"),format!("{}{}", path, "destroy_stage_5.png"),format!("{}{}", path, "destroy_stage_6.png"),format!("{}{}", path, "destroy_stage_7.png"),format!("{}{}", path, "destroy_stage_8.png"),format!("{}{}", path, "destroy_stage_9.png"),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string(),"blank.png".to_string()];
+pub fn stitch(path: &String) {
+    let names = textures::get_terrain()["textures"].clone();
     let mut terrain = RgbaImage::new(256,256);
     RgbaImage::new(16, 16).save("blank.png").unwrap();
     create_missing_texture();
@@ -50,7 +57,12 @@ pub fn stitch(path: &str) {
 
     for y in (0..256).step_by(16) {
         for x in (0..256).step_by(16) {
-            let texture = image::open(&names[i]).unwrap_or(image::open("missing_texture.png").unwrap()).to_rgba8();
+            let texture: RgbaImage;
+            if names[i].to_string() != "none".to_string() {
+                texture = image::open(format!("{}{}", path, names[i].to_string())).unwrap_or(image::open("missing_texture.png").unwrap()).to_rgba8();
+            } else {
+                texture = image::open("blank.png").unwrap().to_rgba8();
+            }
             terrain.copy_from(&texture, x, y).expect("Image does not fit into new Image");
             terrain.save(format!("{}{}", path, "terrain.png")).unwrap();
             i += 1;
@@ -88,16 +100,16 @@ pub fn stitch(path: &str) {
     }
 }
 
-pub fn convert_pack(from_type: u8, to_type: u8, file_copied: &str) {
+pub fn convert_pack(from_type: &u8, to_type: &u8, file_copied: &str) {
     let mut description = "";
     let parsed: json::JsonValue;
     let data: String;
-    if to_type == 1 {
-        if from_type == 2 {
+    if *to_type == 1 {
+        if *from_type == 2 {
             data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.txt")).unwrap();
             description = &data.as_str();
             std::fs::remove_file(format!("{}{}", &file_copied, "/pack.txt")).expect("Failed to remove temp image \"pack.txt\".");
-        } else if from_type == 3 {
+        } else if *from_type == 3 {
             data = fs::read_to_string(format!("{}{}", &file_copied, "/manifest.json")).unwrap();
             parsed = json::parse(&data.as_str()).unwrap();
             description = parsed["header"]["description"].as_str().unwrap();
@@ -113,13 +125,13 @@ pub fn convert_pack(from_type: u8, to_type: u8, file_copied: &str) {
         let mut file = File::create(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
         writeln!(&mut file, "{}", &pack).unwrap();
 
-    } else if to_type == 2 {
-        if from_type == 1 {
+    } else if *to_type == 2 {
+        if *from_type == 1 {
             data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
             parsed = json::parse(&data.as_str()).unwrap();
             description = parsed["pack"]["description"].as_str().unwrap();
             std::fs::remove_file(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
-        } else if from_type == 3 {
+        } else if *from_type == 3 {
             data = fs::read_to_string(format!("{}{}", &file_copied, "/manifest.json")).unwrap();
             parsed = json::parse(&data.as_str()).unwrap();
             description = parsed["header"]["description"].as_str().unwrap();
@@ -129,13 +141,13 @@ pub fn convert_pack(from_type: u8, to_type: u8, file_copied: &str) {
         let mut file = File::create(format!("{}{}", &file_copied, "/pack.txt")).unwrap();
         writeln!(&mut file, "{}", &description.trim()).unwrap();
 
-    } else if to_type == 3 {
-        if from_type == 1 {
+    } else if *to_type == 3 {
+        if *from_type == 1 {
             data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.mcmeta")).unwrap();
             parsed = json::parse(data.as_str()).unwrap();
             description = parsed["pack"]["description"].as_str().unwrap();
             std::fs::remove_file(format!("{}{}", &file_copied, "/pack.mcmeta")).expect("Failed to remove temp image \"pack.mcmeta\".");
-        } else if from_type == 2 {
+        } else if *from_type == 2 {
             data = fs::read_to_string(format!("{}{}", &file_copied, "/pack.txt")).unwrap();
             description = data.as_str();
             std::fs::remove_file(format!("{}{}", &file_copied, "/pack.txt")).expect("Failed to remove temp image \"pack.txt\".");
@@ -165,8 +177,8 @@ pub fn convert_pack(from_type: u8, to_type: u8, file_copied: &str) {
     }
 }
 
-pub fn crop(from_type: u8, file_copied: &str) {
-    if from_type == 1 {
+pub fn crop(from_type: &u8, file_copied: &str) {
+    if *from_type == 1 {
         let path = format!("{}{}", file_copied, "/assets/minecraft/textures/");
         let textures = vec![format!("{}{}", path, "entity/steve.png"),format!("{}{}", path, "entity/zombie_pigman.png"),format!("{}{}", path, "entity/zombie/zombie.png")];
         
@@ -183,7 +195,7 @@ pub fn crop(from_type: u8, file_copied: &str) {
             let cropped2 = img2.sub_image(0, 0, 64, 32).to_image();
             cropped2.save(&textures[i]).unwrap();
         }
-    } else if from_type == 3 {
+    } else if *from_type == 3 {
         let path = format!("{}{}", file_copied, "/textures/");
         let textures = vec![format!("{}{}", path, "entity/steve.png"),format!("{}{}", path, "entity/zombie_pigman.png"),format!("{}{}", path, "entity/zombie/zombie.png")];
         
@@ -207,7 +219,7 @@ pub fn crop(from_type: u8, file_copied: &str) {
     tga_to_png(file_copied);
 }
 
-fn convert_bed(from_type: u8, file_copied: &str) {
+fn convert_bed(from_type: &u8, file_copied: &str) {
     // enum Rotation {
     //     Ninety,
     //     OneEighty,
@@ -239,7 +251,7 @@ fn convert_bed(from_type: u8, file_copied: &str) {
     //         flipped.save(format!("{}{}", path, p)).unwrap();
     //     });
     // }   
-    if from_type == 1 {
+    if *from_type == 1 {
         // Move all this to a for loop
         let path = format!("{}{}", file_copied, "/assets/minecraft/textures/");
 
@@ -285,7 +297,7 @@ fn convert_bed(from_type: u8, file_copied: &str) {
         let flipped6 = imageops::rotate180(&bedhe1);
         flipped6.save(format!("{}{}", path, "entity/bed/bed_head_end.png")).unwrap();
 
-    } else if from_type == 3 {
+    } else if *from_type == 3 {
         // Move all this to a for loop
         let path = format!("{}{}", file_copied, "/textures/");
 
